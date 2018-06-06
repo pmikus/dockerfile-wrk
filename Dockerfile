@@ -3,14 +3,18 @@ FROM alpine:latest
 MAINTAINER Peter Mikus <pmikus@gmail.com>
 
 # Install pre-requisities
-RUN apk add --update alpine-sdk openssl-dev libressl-dev ca-certificates build-base perl cmake \
-    && apk add --no-cache git
+RUN apk add --no-cache git make perl \
+    libgcc openssl build-base linux-headers
 
 # Install wrk
 RUN git clone https://github.com/ayourtch/wrk \
     && cd wrk \
     && make \
     && mv wrk /bin/
+
+# Cleanup
+RUN apk del git make perl \
+    openssl build-base linux-headers
 
 # Define default command
 ENTRYPOINT ["/bin/wrk"]
