@@ -9,7 +9,8 @@ RUN apk add --no-cache git make perl \
 # Install wrk
 RUN git clone https://github.com/ayourtch/wrk \
     && cd wrk \
-    && make \
+    && sed -i 's/no-idea/no-idea no-async/' Makefile\
+    && make -C  all\
     && mv wrk /bin/
 
 # Cleanup
